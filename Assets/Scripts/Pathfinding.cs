@@ -24,25 +24,14 @@ public class Pathfinding : MonoBehaviour {
         Node startNode = m_Grid.NodeFromWorldPoint(startPos);
         Node endNode = m_Grid.NodeFromWorldPoint(endPos);
 
-        List<Node> openSet = new List<Node>();
-        HashSet<Node> closedSet = new HashSet<Node>();
-        openSet.Add(startNode);
+        Heap<Node> frontier = new Heap<Node>(m_Grid.NumberOfNodes);
+        HashSet<Node> explored = new HashSet<Node>();
+        frontier.AddItem(startNode);
 
-        while (openSet.Count > 0)
+        while (frontier.Count > 0)
         {
-            Node node = openSet[0];
-
-            for (int i = 1; i < openSet.Count; i++)
-            {
-                if (openSet[i].m_FCost < node.m_FCost || openSet[i].m_FCost == node.m_FCost)
-                {
-                    if (openSet[i].m_HCost < node.m_HCost)
-                        node = openSet[i];
-                }
-            }
-
-            openSet.Remove(node);
-            closedSet.Add(node);
+            Node node = frontier.FetchFirst();
+            explored.Add(node);
 
             if (node == endNode)
             {
@@ -52,19 +41,23 @@ public class Pathfinding : MonoBehaviour {
 
             foreach (Node neighbour in m_Grid.GetNeighbours(node))
             {
-                if (!neighbour.m_Passable || closedSet.Contains(neighbour))
+                if (!neighbour.m_Passable || explored.Contains(neighbour))
                     continue;
 
                 int movementCost = node.m_GCost + GetDistance(node, neighbour);
 
-                if (movementCost < neighbour.m_GCost || !openSet.Contains(neighbour))
+                if (movementCost < neighbour.m_GCost || !frontier.ContainsItem(neighbour))
                 {
                     neighbour.m_GCost = movementCost;
                     neighbour.m_HCost = GetDistance(neighbour, endNode);
                     neighbour.m_Parent = node;
 
-                    if (!openSet.Contains(neighbour))
-                        openSet.Add(neighbour);
+                    if (!frontier.ContainsItem(neighbour))
+                    {
+                        frontier.AddItem(neighbour);
+                        frontier.UpdateItem(neighbour);
+                    }
+
                 }
             }
         }

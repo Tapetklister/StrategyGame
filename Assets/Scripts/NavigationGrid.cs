@@ -5,18 +5,25 @@ using UnityEngine;
 
 public class NavigationGrid : MonoBehaviour {
 
-    [SerializeField] LayerMask m_UnpassableMask;
     [SerializeField] Vector2 m_GridWorldSize;
     [SerializeField] Tilemap m_CollisionMap;
 
     public List<Node> m_Path;
-
+  
     Grid m_Grid;
     Node[,] m_NavGrid;
     float m_NodeRadius;
     float m_NodeDiameter;
     int m_GridSizeX;
     int m_GridSizeY;
+
+    public int NumberOfNodes
+    {
+        get
+        {
+            return m_GridSizeX * m_GridSizeY;
+        }
+    }
 
     private void Awake()
     {
