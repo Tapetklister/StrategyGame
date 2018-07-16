@@ -7,8 +7,6 @@ public class NavigationGrid : MonoBehaviour {
 
     [SerializeField] Vector2 m_GridWorldSize;
     [SerializeField] Tilemap m_CollisionMap;
-
-    public List<Node> m_Path;
   
     Grid m_Grid;
     Node[,] m_NavGrid;
@@ -88,7 +86,7 @@ public class NavigationGrid : MonoBehaviour {
         return m_NavGrid[x, y];
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.DrawWireCube(transform.position, new Vector3(m_GridWorldSize.x, m_GridWorldSize.y, 1.0f));
         if (m_NavGrid != null)
@@ -96,13 +94,6 @@ public class NavigationGrid : MonoBehaviour {
             foreach (Node node in m_NavGrid)
             {
                 Gizmos.color = node.m_Passable ? Color.white : Color.red;
-                if (m_Path != null)
-                {
-                    if (m_Path.Contains(node))
-                    {
-                        Gizmos.color = Color.black;
-                    }
-                }
                 Gizmos.DrawCube(node.m_WorldPosition, Vector3.one * (m_NodeDiameter));
             }
         }
