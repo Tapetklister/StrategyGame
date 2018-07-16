@@ -14,6 +14,7 @@ public class NavigationGrid : MonoBehaviour {
     float m_NodeDiameter;
     int m_GridSizeX;
     int m_GridSizeY;
+    Vector3 m_WorldBottomLeft;
 
     public int NumberOfNodes
     {
@@ -36,13 +37,13 @@ public class NavigationGrid : MonoBehaviour {
     void CreateGrid()
     {
         m_NavGrid = new Node[m_GridSizeX, m_GridSizeY];
-        Vector3 worldBottomLeft = transform.position - Vector3.right * m_GridWorldSize.x / 2 - Vector3.up * m_GridWorldSize.y / 2;
+        m_WorldBottomLeft = transform.position - Vector3.right * m_GridWorldSize.x / 2 - Vector3.up * m_GridWorldSize.y / 2;
 
         for (int x = 0; x < m_GridSizeX; x++)
         {
             for (int y = 0; y < m_GridSizeY; y++)
             {
-                Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * m_NodeDiameter + m_NodeRadius) + Vector3.up * (y * m_NodeDiameter + m_NodeRadius);
+                Vector3 worldPoint = m_WorldBottomLeft + Vector3.right * (x * m_NodeDiameter + m_NodeRadius) + Vector3.up * (y * m_NodeDiameter + m_NodeRadius);
                 bool passable = !m_CollisionMap.HasTile(new Vector3Int(Mathf.RoundToInt(x - m_GridSizeX * 0.5f), Mathf.RoundToInt(y - m_GridSizeY * 0.5f), 0));
                 m_NavGrid[x, y] = new Node(passable, worldPoint, x, y);
             }
@@ -77,8 +78,10 @@ public class NavigationGrid : MonoBehaviour {
 
     public Node NodeFromWorldPoint(Vector3 worldPosition)
     {
-        float percentX = (worldPosition.x + m_GridWorldSize.x / 2) / m_GridWorldSize.x;
-        float percentY = (worldPosition.y + m_GridWorldSize.y / 2) / m_GridWorldSize.y;
+        Vector3 localPos = worldPosition - m_WorldBottomLeft;
+
+        float percentX = localPos.x / m_GridWorldSize.x;
+        float percentY = localPos.y / m_GridWorldSize.y;
         percentX = Mathf.Clamp01(percentX);
         percentY = Mathf.Clamp01(percentY);
 
