@@ -5,14 +5,23 @@ using UnityEngine;
 public class Follow : MonoBehaviour {
 
     [SerializeField] Transform m_Target;
-    [SerializeField] float m_MovementSpeed = 5.0f;
+    [SerializeField] float m_MovementSpeed = 2.0f;
+    [SerializeField] float m_TargetSearchInterval = 1.0f;
 
     Vector3[] m_Path;
     int m_TargetIndex;
 
-    private void Start()
+    float m_Timer;
+
+    private void Update()
     {
-        PathRequestSingleton.RequestPath(transform.position, m_Target.position, OnPathFound);
+        m_Timer += Time.deltaTime;
+
+        if (m_Timer >= m_TargetSearchInterval)
+        {
+            m_Timer -= m_TargetSearchInterval;
+            PathRequestSingleton.RequestPath(transform.position, m_Target.position, OnPathFound);
+        }
     }
 
     public void OnPathFound(Vector3[] _newPath, bool _pathFound)

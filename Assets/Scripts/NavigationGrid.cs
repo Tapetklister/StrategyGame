@@ -61,6 +61,7 @@ public class NavigationGrid : MonoBehaviour {
                 {
                     continue;
                 }
+
                 int checkX = node.m_GridX + x;
                 int checkY = node.m_GridY + y;
 
