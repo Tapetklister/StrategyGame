@@ -7,6 +7,8 @@ public class Player : MonoBehaviour {
     [SerializeField] float m_RespawnDelay = 3.0f;
     [SerializeField] int m_Stock = 3;
 
+    public int m_Score;
+
     SpriteRenderer m_SpriteRenderer;
     PlayerController m_Controller;
     Vector3 m_RespawnPoint;
@@ -29,6 +31,12 @@ public class Player : MonoBehaviour {
         if (collision.gameObject.CompareTag("Enemy"))
         {
             Die();
+        }
+        else if (collision.gameObject.CompareTag("Pellet"))
+        {
+            Pellet pellet = collision.gameObject.GetComponent<Pellet>();
+            m_Score += pellet.PickUp();
+            SendMessageUpwards("SetScoreText", m_Score);
         }
     }
 

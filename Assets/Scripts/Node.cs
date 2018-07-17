@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Node : IHeapItem<Node> {
 
+    public bool m_Populated;
     public bool m_Passable;
     public Vector3 m_WorldPosition;
     public int m_GridX;
