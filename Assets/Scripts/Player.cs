@@ -62,5 +62,6 @@ public class Player : MonoBehaviour {
         m_SpriteRenderer.enabled = true;
         m_Controller.enabled = true;
         SendMessageUpwards("SetStockText", m_Stock);
+        SendMessageUpwards("RespawnObjects");
     }
 }

@@ -8,13 +8,25 @@ public class Follow : MonoBehaviour {
     [SerializeField] float m_MovementSpeed = 2.0f;
     [SerializeField] float m_TargetSearchInterval = 1.0f;
 
+    public bool m_IsActive = true;
+
+    Vector3 m_StartingPosition;
     Vector3[] m_Path;
     int m_TargetIndex;
 
     float m_Timer;
 
+    private void Awake()
+    {
+        m_StartingPosition = transform.position;
+        m_Timer = m_TargetSearchInterval;
+    }
+
     private void Update()
     {
+        if (!m_IsActive)
+            return;
+
         m_Timer += Time.deltaTime;
 
         if (m_Timer >= m_TargetSearchInterval)
@@ -22,6 +34,12 @@ public class Follow : MonoBehaviour {
             m_Timer -= m_TargetSearchInterval;
             PathRequestSingleton.RequestPath(transform.position, m_Target.position, OnPathFound);
         }
+    }
+
+    public void Respawn()
+    {
+        transform.position = m_StartingPosition;
+        m_IsActive = true;
     }
 
     public void OnPathFound(Vector3[] _newPath, bool _pathFound)
@@ -54,5 +72,10 @@ public class Follow : MonoBehaviour {
             transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, m_MovementSpeed * Time.deltaTime);
             yield return null;
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        m_IsActive = false;
     }
 }
