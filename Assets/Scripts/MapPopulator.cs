@@ -8,20 +8,11 @@ public class MapPopulator : MonoBehaviour {
     [SerializeField] NavigationGrid m_Grid;
     [SerializeField] Transform[] m_NonStaticObjects;
     
-    Vector3[] m_Occupied;
     Pellet[] m_Pellets;
     int m_PelletIndex;
 
     private void Start()
     {
-        m_Occupied = new Vector3[m_NonStaticObjects.Length];
-
-        for (int i = 0; i < m_Occupied.Length; i++)
-        {
-            
-            m_Grid.NodeFromWorldPoint(m_Occupied[i]);
-        }
-
         m_Pellets = new Pellet[m_Grid.m_GridSizeX * m_Grid.m_GridSizeY - m_NonStaticObjects.Length];
 
         for (int x = 0; x < m_Grid.m_GridSizeX; x++)

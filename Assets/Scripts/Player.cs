@@ -44,7 +44,16 @@ public class Player : MonoBehaviour {
     {
         m_SpriteRenderer.enabled = false;
         m_Controller.enabled = false;
-        Invoke("Respawn", m_RespawnDelay);
+        m_Stock--;
+
+        if (m_Stock <= 0)
+        {
+            SendMessageUpwards("ShowGameOverScreen");
+        }
+        else
+        {
+            Invoke("Respawn", m_RespawnDelay);
+        }
     }
 
     void Respawn()
@@ -52,5 +61,6 @@ public class Player : MonoBehaviour {
         transform.position = m_RespawnPoint;
         m_SpriteRenderer.enabled = true;
         m_Controller.enabled = true;
+        SendMessageUpwards("SetStockText", m_Stock);
     }
 }
