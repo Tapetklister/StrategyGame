@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class MapPopulator : MonoBehaviour {
 
-    [SerializeField] Pellet m_Pellet;
+    [SerializeField] Pickup m_PelletPrefab;
     [SerializeField] NavigationGrid m_Grid;
     [SerializeField] GameObject[] m_Powerups;
     [SerializeField] Follow[] m_Enemies;
 
     List<GameObject> m_NonStaticObjects;
     Vector3[] m_StartingPositions;
-    Pellet[] m_Pellets;
+    Pickup[] m_Pellets;
     int m_PelletIndex;
 
     private void Start()
@@ -35,7 +35,7 @@ public class MapPopulator : MonoBehaviour {
             m_StartingPositions[i] = m_NonStaticObjects[i].transform.position;
         }
 
-        m_Pellets = new Pellet[m_Grid.m_GridSizeX * m_Grid.m_GridSizeY - m_NonStaticObjects.Count];
+        m_Pellets = new Pickup[m_Grid.m_GridSizeX * m_Grid.m_GridSizeY - m_NonStaticObjects.Count];
 
         for (int x = 0; x < m_Grid.m_GridSizeX; x++)
         {
@@ -62,7 +62,7 @@ public class MapPopulator : MonoBehaviour {
 
     void SpawnPellet(Vector3 worldPosition)
     {
-        m_Pellets[m_PelletIndex] = (Pellet)Instantiate(m_Pellet);
+        m_Pellets[m_PelletIndex] = (Pickup)Instantiate(m_PelletPrefab);
         m_Pellets[m_PelletIndex].transform.position = worldPosition;
         m_PelletIndex++;
     }

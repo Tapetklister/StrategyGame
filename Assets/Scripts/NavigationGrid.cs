@@ -50,7 +50,7 @@ public class NavigationGrid : MonoBehaviour {
         }
     }
 
-    public List<Node> GetNeighbours(Node node)
+    public List<Node> GetNeighbours(Node _node)
     {
         List<Node> neighbours = new List<Node>();
 
@@ -63,8 +63,8 @@ public class NavigationGrid : MonoBehaviour {
                     continue;
                 }
 
-                int checkX = node.m_GridX + x;
-                int checkY = node.m_GridY + y;
+                int checkX = _node.m_GridX + x;
+                int checkY = _node.m_GridY + y;
 
                 if (checkX >= 0 && checkX < m_GridSizeX && checkY >= 0 && checkY < m_GridSizeY)
                 {
@@ -76,10 +76,10 @@ public class NavigationGrid : MonoBehaviour {
         return neighbours;
     }
 
-    public Node NodeFromWorldPoint(Vector3 worldPosition)
+    public Node NodeFromWorldPoint(Vector3 _worldPosition)
     {
-        float percentX = (worldPosition.x + m_GridWorldSize.x / 2) / m_GridWorldSize.x;
-        float percentY = (worldPosition.y + m_GridWorldSize.y / 2) / m_GridWorldSize.y;
+        float percentX = (_worldPosition.x + m_GridWorldSize.x / 2) / m_GridWorldSize.x;
+        float percentY = (_worldPosition.y + m_GridWorldSize.y / 2) / m_GridWorldSize.y;
         percentX = Mathf.Clamp01(percentX);
         percentY = Mathf.Clamp01(percentY);
 

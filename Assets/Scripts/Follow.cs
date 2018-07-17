@@ -11,7 +11,6 @@ public class Follow : MonoBehaviour {
     Vector3 m_StartingPosition;
     Vector3[] m_Path;
     int m_TargetIndex;
-    CircleCollider2D m_Collider;
 
     float m_Timer;
 
@@ -19,7 +18,6 @@ public class Follow : MonoBehaviour {
     {
         m_StartingPosition = transform.position;
         m_Timer = m_TargetSearchInterval;
-        m_Collider = GetComponent<CircleCollider2D>();
     }
 
     private void Update()

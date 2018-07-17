@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pellet : MonoBehaviour {
+public class SpeedPickup : MonoBehaviour {
 
-    [SerializeField] int m_ScoreAwarded = 10;
-
+    [SerializeField] float m_SpeedFactor = 1.4f;
     SpriteRenderer m_Renderer;
     CircleCollider2D m_Collider;
 
@@ -15,10 +14,10 @@ public class Pellet : MonoBehaviour {
         m_Collider = GetComponent<CircleCollider2D>();
     }
 
-    public int PickUp()
+    public float PickUp()
     {
         m_Renderer.enabled = false;
         m_Collider.enabled = false;
-        return m_ScoreAwarded;
+        return m_SpeedFactor;
     }
 }

@@ -8,7 +8,7 @@ public class Player : MonoBehaviour {
     [SerializeField] int m_Stock = 3;
 
     public int m_Score;
-
+    
     CircleCollider2D m_Collider;
     SpriteRenderer m_SpriteRenderer;
     PlayerController m_Controller;
@@ -29,11 +29,25 @@ public class Player : MonoBehaviour {
         {
             Die();
         }
-        else if (collision.gameObject.CompareTag("Pellet"))
+        else if (collision.gameObject.CompareTag("Pickup"))
         {
-            Pellet pellet = collision.gameObject.GetComponent<Pellet>();
-            m_Score += pellet.PickUp();
-            SendMessageUpwards("SetScoreText", m_Score);
+            Pickup pickup = collision.gameObject.GetComponent<Pickup>();
+            if (pickup.m_Type == EPickupType.PELLET)
+            {
+                float score;
+                float dur;
+                pickup.PickUp(out score, out dur);
+                m_Score += (int)score;
+                SendMessageUpwards("SetScoreText", m_Score);
+            }
+            else if (pickup.m_Type == EPickupType.SPEED)
+            {
+                float speedFactor;
+                float dur;
+                pickup.PickUp(out speedFactor, out dur);
+
+                m_Controller.IncreaseMovementSpeedForDuration(speedFactor, dur);
+            }
         }
     }
 

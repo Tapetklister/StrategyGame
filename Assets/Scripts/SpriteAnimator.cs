@@ -30,4 +30,9 @@ public class SpriteAnimator : MonoBehaviour {
             m_SpriteRenderer.sprite = m_Sprites[m_SpriteIndex];
         }
     }
+
+    public void SetSpriteColor(Color _color)
+    {
+        m_SpriteRenderer.color = _color;
+    }
 }

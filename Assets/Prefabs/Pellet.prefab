@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114612691164740026}
   m_Layer: 0
   m_Name: Pellet
-  m_TagString: Pellet
+  m_TagString: Pickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -68,7 +68,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c759c117d49560349989883819f304ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ScoreAwarded: 10
+  m_Value: 1
+  m_Type: 0
 --- !u!212 &212235781607616318
 SpriteRenderer:
   m_ObjectHideFlags: 1
