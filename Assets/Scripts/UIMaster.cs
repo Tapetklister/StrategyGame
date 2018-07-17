@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class UIMaster : MonoBehaviour {
@@ -9,6 +10,12 @@ public class UIMaster : MonoBehaviour {
     [SerializeField] Text m_StockText;
     [SerializeField] Text m_GameOverScoreText;
     [SerializeField] GameObject m_GameOverPanel;
+
+    private void Update()
+    {
+        if (m_GameOverPanel.active && Input.GetButtonDown("Jump"))
+            SceneManager.LoadScene(0);
+    }
 
     void SetStockText(int _stock)
     {

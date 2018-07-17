@@ -15,6 +15,8 @@ public class Pickup : MonoBehaviour {
 
     public EPickupType m_Type;
 
+    [HideInInspector]public bool m_PickedUp;
+
     SpriteRenderer m_Renderer;
     CircleCollider2D m_Collider;
 
@@ -30,5 +32,6 @@ public class Pickup : MonoBehaviour {
         m_Collider.enabled = false;
         _value = m_Value;
         _duration = m_Duration;
+        m_PickedUp = true;
     }
 }

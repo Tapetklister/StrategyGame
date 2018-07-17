@@ -11,12 +11,12 @@ public class MapPopulator : MonoBehaviour {
 
     List<GameObject> m_NonStaticObjects;
     Vector3[] m_StartingPositions;
-    Pickup[] m_Pellets;
-    int m_PelletIndex;
+    List<Pickup> m_Pellets;
 
     private void Start()
     {
         m_NonStaticObjects = new List<GameObject>();
+        m_Pellets = new List<Pickup>();
 
         for (int i = 0; i < m_Powerups.Length; i++)
         {
@@ -34,8 +34,6 @@ public class MapPopulator : MonoBehaviour {
         {
             m_StartingPositions[i] = m_NonStaticObjects[i].transform.position;
         }
-
-        m_Pellets = new Pickup[m_Grid.m_GridSizeX * m_Grid.m_GridSizeY - m_NonStaticObjects.Count];
 
         for (int x = 0; x < m_Grid.m_GridSizeX; x++)
         {
@@ -57,14 +55,13 @@ public class MapPopulator : MonoBehaviour {
                 }
             }
         }
-
     }
 
-    void SpawnPellet(Vector3 worldPosition)
+    void SpawnPellet(Vector3 _worldPosition)
     {
-        m_Pellets[m_PelletIndex] = (Pickup)Instantiate(m_PelletPrefab);
-        m_Pellets[m_PelletIndex].transform.position = worldPosition;
-        m_PelletIndex++;
+        Pickup pellet = (Pickup)Instantiate(m_PelletPrefab);
+        pellet.transform.position = _worldPosition;
+        m_Pellets.Add(pellet);
     }
 
     void RespawnObjects()

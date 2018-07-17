@@ -87,17 +87,5 @@ public class NavigationGrid : MonoBehaviour {
         int y = Mathf.RoundToInt((m_GridSizeY - 1) * percentY);
         return m_NavGrid[x, y];
     }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.DrawWireCube(transform.position, new Vector3(m_GridWorldSize.x, m_GridWorldSize.y, 1.0f));
-        if (m_NavGrid != null)
-        {
-            foreach (Node node in m_NavGrid)
-            {
-                Gizmos.color = node.m_Passable ? Color.white : Color.red;
-                Gizmos.DrawCube(node.m_WorldPosition, Vector3.one * (m_NodeDiameter));
-            }
-        }
-    }
+    
 }
