@@ -6,22 +6,36 @@ public class MapPopulator : MonoBehaviour {
 
     [SerializeField] Pellet m_Pellet;
     [SerializeField] NavigationGrid m_Grid;
-    [SerializeField] Transform[] m_NonStaticObjects;
+    [SerializeField] GameObject[] m_Powerups;
+    [SerializeField] Follow[] m_Enemies;
 
+    List<GameObject> m_NonStaticObjects;
     Vector3[] m_StartingPositions;
     Pellet[] m_Pellets;
     int m_PelletIndex;
 
     private void Start()
     {
-        m_StartingPositions = new Vector3[m_NonStaticObjects.Length];
+        m_NonStaticObjects = new List<GameObject>();
 
-        for (int i = 0; i < m_NonStaticObjects.Length; i++)
+        for (int i = 0; i < m_Powerups.Length; i++)
+        {
+            m_NonStaticObjects.Add(m_Powerups[i]);
+        }
+
+        for (int i = 0; i < m_Enemies.Length; i++)
+        {
+            m_NonStaticObjects.Add(m_Enemies[i].gameObject);
+        }
+
+        m_StartingPositions = new Vector3[m_NonStaticObjects.Count];
+
+        for (int i = 0; i < m_NonStaticObjects.Count; i++)
         {
             m_StartingPositions[i] = m_NonStaticObjects[i].transform.position;
         }
 
-        m_Pellets = new Pellet[m_Grid.m_GridSizeX * m_Grid.m_GridSizeY - m_NonStaticObjects.Length];
+        m_Pellets = new Pellet[m_Grid.m_GridSizeX * m_Grid.m_GridSizeY - m_NonStaticObjects.Count];
 
         for (int x = 0; x < m_Grid.m_GridSizeX; x++)
         {
@@ -31,9 +45,9 @@ public class MapPopulator : MonoBehaviour {
                 {
                     bool pelletShouldSpawn = true;
 
-                    for (int i = 0; i < m_NonStaticObjects.Length; i++)
+                    for (int i = 0; i < m_NonStaticObjects.Count; i++)
                     {
-                        if (m_Grid.m_NavGrid[x, y].m_WorldPosition == m_NonStaticObjects[i].position)
+                        if (m_Grid.m_NavGrid[x, y].m_WorldPosition == m_NonStaticObjects[i].transform.position)
                         {
                             pelletShouldSpawn = false;
                         }
@@ -55,7 +69,8 @@ public class MapPopulator : MonoBehaviour {
 
     void RespawnObjects()
     {
-        for (int i = 0; i < m_NonStaticObjects.Length; i++)
+
+        for (int i = 0; i < m_NonStaticObjects.Count; i++)
         {
             m_NonStaticObjects[i].gameObject.SetActive(true);
 
@@ -67,6 +82,23 @@ public class MapPopulator : MonoBehaviour {
             }
 
             m_NonStaticObjects[i].transform.position = m_StartingPositions[i];
+        }
+    }
+
+    void RespawnEnemies()
+    {
+        for (int i = 0; i < m_Enemies.Length; i++)
+        {
+            m_Enemies[i].Respawn();
+        }
+    }
+
+    void RespawnPickups()
+    {
+        for (int i = 0; i < m_Powerups.Length; i++)
+        {
+            SpriteRenderer spriteRenderer = m_Powerups[i].GetComponent<SpriteRenderer>();
+            spriteRenderer.enabled = true;
         }
     }
 }

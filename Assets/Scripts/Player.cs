@@ -9,6 +9,7 @@ public class Player : MonoBehaviour {
 
     public int m_Score;
 
+    CircleCollider2D m_Collider;
     SpriteRenderer m_SpriteRenderer;
     PlayerController m_Controller;
     Vector3 m_RespawnPoint;
@@ -19,12 +20,8 @@ public class Player : MonoBehaviour {
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
         m_Controller = GetComponent<PlayerController>();
         m_RespawnPoint = transform.position;
+        m_Collider = GetComponent<CircleCollider2D>();
     }
-
-    // Update is called once per frame
-    void Update () {
-		
-	}
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -45,6 +42,7 @@ public class Player : MonoBehaviour {
         m_SpriteRenderer.enabled = false;
         m_Controller.enabled = false;
         m_Stock--;
+        m_Collider.enabled = false;
 
         if (m_Stock <= 0)
         {
@@ -58,6 +56,7 @@ public class Player : MonoBehaviour {
 
     void Respawn()
     {
+        m_Collider.enabled = true;
         transform.position = m_RespawnPoint;
         m_SpriteRenderer.enabled = true;
         m_Controller.enabled = true;

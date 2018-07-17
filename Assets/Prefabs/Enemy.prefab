@@ -71,6 +71,7 @@ MonoBehaviour:
   m_Target: {fileID: 0}
   m_MovementSpeed: 2
   m_TargetSearchInterval: 1
+  m_IsActive: 1
 --- !u!212 &212340418430975100
 SpriteRenderer:
   m_ObjectHideFlags: 1

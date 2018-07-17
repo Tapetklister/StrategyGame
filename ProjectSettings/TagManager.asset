@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Pellet
+  - Powerup
   layers:
   - Default
   - TransparentFX

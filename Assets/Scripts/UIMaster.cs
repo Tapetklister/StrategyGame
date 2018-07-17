@@ -7,6 +7,7 @@ public class UIMaster : MonoBehaviour {
 
     [SerializeField] Text m_ScoreText;
     [SerializeField] Text m_StockText;
+    [SerializeField] Text m_GameOverScoreText;
     [SerializeField] GameObject m_GameOverPanel;
 
     void SetStockText(int _stock)
@@ -22,5 +23,6 @@ public class UIMaster : MonoBehaviour {
     void ShowGameOverScreen()
     {
         m_GameOverPanel.SetActive(true);
+        m_GameOverScoreText.text = m_ScoreText.text;
     }
 }
