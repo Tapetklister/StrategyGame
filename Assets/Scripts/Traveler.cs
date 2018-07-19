@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Traveler : MonoBehaviour {
 
-    [SerializeField] Transform m_Target;
+    [SerializeField] TileCursor m_Cursor;
     [SerializeField] float m_MovementSpeed = 2.0f;
     
     Vector3[] m_Path;
@@ -12,7 +12,7 @@ public class Traveler : MonoBehaviour {
 
     public void TryToMoveToDestination()
     {
-        PathRequestSingleton.RequestPath(transform.position, m_Target.position, OnPathFound);
+        PathRequestSingleton.RequestPath(transform.position, m_Cursor.m_HighlightedNode.m_WorldPosition, OnPathFound);
     }
 
     public void OnPathFound(Vector3[] _newPath, bool _pathFound)
@@ -46,6 +46,18 @@ public class Traveler : MonoBehaviour {
 
                 transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, m_MovementSpeed * Time.deltaTime);
                 yield return null;
+            }
+        }
+    }
+
+    public void OnDrawGizmos()
+    {
+        if (m_Path != null)
+        {
+            for (int i = m_TargetIndex; i < m_Path.Length; i++)
+            {
+                Gizmos.color = new Color(0.0f, 0.0f, 0.8f, 0.5f);
+                Gizmos.DrawCube(m_Path[i], Vector3.one);
             }
         }
     }

@@ -1967,13 +1967,14 @@ GameObject:
   - component: {fileID: 571235118}
   - component: {fileID: 571235120}
   - component: {fileID: 571235119}
+  - component: {fileID: 571235121}
   m_Layer: 0
   m_Name: Cursor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &571235118
 Transform:
   m_ObjectHideFlags: 0
@@ -1993,7 +1994,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 571235117}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 87abc0c71b879ea4e8418daa8fd7691c, type: 3}
   m_Name: 
@@ -2033,7 +2034,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 5
   m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   m_Color: {r: 0.13550194, g: 0.8207547, b: 0.14594908, a: 1}
   m_FlipX: 0
@@ -2044,6 +2045,20 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!114 &571235121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 571235117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1218b8badde26a148b399b7f4e849996, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Grid: {fileID: 1526112601}
+  m_Mode: 0
+  m_Speed: 3
 --- !u!1 &743559461
 GameObject:
   m_ObjectHideFlags: 0
@@ -3174,7 +3189,6 @@ GameObject:
   - component: {fileID: 1526112601}
   - component: {fileID: 1526112604}
   - component: {fileID: 1526112605}
-  - component: {fileID: 1526112606}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -3246,18 +3260,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2b2c7b7294f65e4aa9f715ada4953a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1526112606
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1526112600}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1218b8badde26a148b399b7f4e849996, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Grid: {fileID: 1526112601}
 --- !u!1 &1616327926
 GameObject:
   m_ObjectHideFlags: 0
@@ -3305,7 +3307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24d361a1ecd85b54a8ac2a53336d725a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Target: {fileID: 571235118}
+  m_Cursor: {fileID: 0}
   m_MovementSpeed: 2
 --- !u!114 &1616327929
 MonoBehaviour:
