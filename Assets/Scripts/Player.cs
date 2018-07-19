@@ -23,34 +23,6 @@ public class Player : MonoBehaviour {
         m_Collider = GetComponent<CircleCollider2D>();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            Die();
-        }
-        else if (collision.gameObject.CompareTag("Pickup"))
-        {
-            Pickup pickup = collision.gameObject.GetComponent<Pickup>();
-            if (pickup.m_Type == EPickupType.PELLET)
-            {
-                float score;
-                float dur;
-                pickup.PickUp(out score, out dur);
-                m_Score += (int)score;
-                SendMessageUpwards("SetScoreText", m_Score);
-            }
-            else if (pickup.m_Type == EPickupType.SPEED)
-            {
-                float speedFactor;
-                float dur;
-                pickup.PickUp(out speedFactor, out dur);
-
-                m_Controller.IncreaseMovementSpeedForDuration(speedFactor, dur);
-            }
-        }
-    }
-
     void Die()
     {
         m_SpriteRenderer.enabled = false;
