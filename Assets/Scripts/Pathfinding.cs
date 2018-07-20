@@ -49,7 +49,7 @@ public class Pathfinding : MonoBehaviour {
                     if (!neighbour.m_Passable || explored.Contains(neighbour))
                         continue;
 
-                    int movementCost = node.m_GCost + GetDistance(node, neighbour);
+                    int movementCost = node.m_GCost + GetDistance(node, neighbour) + neighbour.m_MovementPenaly;
 
                     if (movementCost < neighbour.m_GCost || !frontier.ContainsItem(neighbour))
                     {

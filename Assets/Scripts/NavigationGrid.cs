@@ -7,7 +7,8 @@ public class NavigationGrid : MonoBehaviour {
 
     [SerializeField] Vector2 m_GridWorldSize;
     [SerializeField] Tilemap m_CollisionMap;
-  
+    [SerializeField] Terrain[] m_WalkableMaps;
+
     [HideInInspector] public Grid m_Grid;
     [HideInInspector] public int m_GridSizeX;
     [HideInInspector] public int m_GridSizeY;
@@ -44,8 +45,23 @@ public class NavigationGrid : MonoBehaviour {
             for (int y = 0; y < m_GridSizeY; y++)
             {
                 Vector3 worldPoint = worldBottomLeft + Vector3.right * (x * m_NodeDiameter + m_NodeRadius) + Vector3.up * (y * m_NodeDiameter + m_NodeRadius);
-                bool passable = !m_CollisionMap.HasTile(new Vector3Int(Mathf.RoundToInt(x - m_GridSizeX * 0.5f), Mathf.RoundToInt(y - m_GridSizeY * 0.5f), 0));
-                m_NavGrid[x, y] = new Node(passable, worldPoint, x, y);
+                Vector3Int mapPoint = new Vector3Int(Mathf.RoundToInt(x - m_GridSizeX * 0.5f), Mathf.RoundToInt(y - m_GridSizeY * 0.5f), 0);
+                bool passable = !m_CollisionMap.HasTile(mapPoint);
+
+                int movementPenalty = 0;
+
+                if (passable)
+                {
+                    for (int i = 0; i < m_WalkableMaps.Length; i++)
+                    {
+                        if (m_WalkableMaps[i].m_Map.HasTile(mapPoint))
+                        {
+                            movementPenalty += m_WalkableMaps[i].m_MovementPenalty;
+                        }
+                    }
+                }
+
+                m_NavGrid[x, y] = new Node(passable, worldPoint, x, y, movementPenalty);
             }
         }
     }
@@ -86,6 +102,13 @@ public class NavigationGrid : MonoBehaviour {
         int x = Mathf.RoundToInt((m_GridSizeX - 1) * percentX);
         int y = Mathf.RoundToInt((m_GridSizeY - 1) * percentY);
         return m_NavGrid[x, y];
+    }
+
+    [System.Serializable]
+    public class Terrain
+    {
+        public Tilemap m_Map;
+        public int m_MovementPenalty;
     }
     
 }
