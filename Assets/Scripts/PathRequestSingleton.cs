@@ -12,6 +12,10 @@ public class PathRequestSingleton : MonoBehaviour {
     Pathfinding m_Pathfinding;
     bool m_IsSearchingForPath;
 
+    Queue<ReachableAreaRequest> m_ReachableAreaRequestQueue = new Queue<ReachableAreaRequest>();
+    ReachableAreaRequest m_CurrentReachableAreaRequest;
+    bool m_IsSearchingForReachableArea;
+
     private void Awake()
     {
         m_Instance = this;
@@ -23,6 +27,13 @@ public class PathRequestSingleton : MonoBehaviour {
         PathRequest request = new PathRequest(_startPos, _endPos, _callback);
         m_Instance.m_PathRequestQueue.Enqueue(request);
         m_Instance.TryFindNextPath();
+    }
+
+    public static void RequestReachableArea(Vector3 _startPos, float _range, Action<Vector3[], bool> _callback)
+    {
+        ReachableAreaRequest request = new ReachableAreaRequest(_startPos, _range, _callback);
+        m_Instance.m_ReachableAreaRequestQueue.Enqueue(request);
+        m_Instance.TryDefineReachableArea();
     }
 
     public void FinishedSearchingForPath(Vector3[] _path, bool _success)
@@ -42,6 +53,16 @@ public class PathRequestSingleton : MonoBehaviour {
         }
     }
 
+    void TryDefineReachableArea()
+    {
+        if (!m_IsSearchingForReachableArea && m_ReachableAreaRequestQueue.Count > 0)
+        {
+            m_CurrentReachableAreaRequest = m_ReachableAreaRequestQueue.Dequeue();
+            m_IsSearchingForReachableArea = true;
+            m_Pathfinding.StartFindReachableArea(m_CurrentReachableAreaRequest.m_StartPos, m_CurrentReachableAreaRequest.m_Range);
+        }
+    }
+
     struct PathRequest
     {
         public Vector3 m_StartPos;
@@ -52,6 +73,20 @@ public class PathRequestSingleton : MonoBehaviour {
         {
             m_StartPos = _startPos;
             m_EndPos = _endPos;
+            m_Callback = _callback;
+        }
+    }
+
+    struct ReachableAreaRequest
+    {
+        public Vector3 m_StartPos;
+        public float m_Range;
+        public Action<Vector3[], bool> m_Callback;
+
+        public ReachableAreaRequest(Vector3 _startPos, float _range, Action<Vector3[], bool> _callback)
+        {
+            m_StartPos = _startPos;
+            m_Range = _range;
             m_Callback = _callback;
         }
     }

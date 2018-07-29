@@ -19,6 +19,11 @@ public class Pathfinding : MonoBehaviour {
         StartCoroutine(FindPath(_startPos, _endPos));
     }
 
+    public void StartFindReachableArea(Vector3 _startPos, float _range)
+    {
+        StartCoroutine(FindReachableArea(_startPos, _range));
+    }
+
     IEnumerator FindPath(Vector3 startPos, Vector3 endPos)
     {
         Vector3[] nodePositions = new Vector3[0];
@@ -75,6 +80,16 @@ public class Pathfinding : MonoBehaviour {
             nodePositions = RetracePath(startNode, endNode);
         }
         m_PathRequestHandler.FinishedSearchingForPath(nodePositions, pathFound);
+    }
+
+    IEnumerator FindReachableArea(Vector3 _startPos, float _range)
+    {
+        Vector3[] nodePositions = new Vector3[0];
+        bool reachableAreaFound = false;
+
+        Node startNode = m_Grid.NodeFromWorldPoint(_startPos);
+
+        yield return null;
     }
 
     Vector3[] RetracePath(Node startNode, Node endNode)

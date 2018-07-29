@@ -6,9 +6,16 @@ public class Traveler : MonoBehaviour {
 
     [SerializeField] TileCursor m_Cursor;
     [SerializeField] float m_MovementSpeed = 2.0f;
-    
+    [SerializeField] float m_MovementRange = 50.0f;
+
+    Vector3[] m_ReachableArea;
     Vector3[] m_Path;
     int m_TargetIndex;
+
+    private void Update()
+    {
+        PathRequestSingleton.RequestReachableArea(transform.position, m_MovementRange, OnReachableAreaFound);
+    }
 
     public void TryToMoveToDestination()
     {
@@ -23,6 +30,14 @@ public class Traveler : MonoBehaviour {
             m_TargetIndex = 0;
             StopCoroutine("MoveAlongPath");
             StartCoroutine("MoveAlongPath");
+        }
+    }
+
+    void OnReachableAreaFound(Vector3[] _reachableArea, bool _reachableAreaFound)
+    {
+        if (_reachableAreaFound)
+        {
+            m_ReachableArea = _reachableArea;
         }
     }
 
@@ -58,6 +73,15 @@ public class Traveler : MonoBehaviour {
             {
                 Gizmos.color = new Color(0.0f, 0.0f, 0.8f, 0.5f);
                 Gizmos.DrawCube(m_Path[i], Vector3.one);
+            }
+        }
+
+        if (m_ReachableArea != null)
+        {
+            for ( int i = 0; i < m_ReachableArea.Length; i++)
+            {
+                Gizmos.color = new Color(0.8f, 0.0f, 0.8f, 0.8f);
+                Gizmos.DrawCube(m_ReachableArea[i], Vector3.one);
             }
         }
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
-    [SerializeField] float m_Active;
+    [SerializeField] bool m_Active;
     [SerializeField] float m_ActionPoints;
     [SerializeField] float m_MovementCost;
 
