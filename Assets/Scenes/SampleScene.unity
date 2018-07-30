@@ -2741,7 +2741,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Cursor: {fileID: 571235121}
   m_MovementSpeed: 2
-  m_Pathfinding: {fileID: 1526112604}
+  m_MovementRange: 220
 --- !u!114 &1616327929
 MonoBehaviour:
   m_ObjectHideFlags: 0

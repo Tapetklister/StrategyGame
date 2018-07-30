@@ -14,7 +14,10 @@ public class Traveler : MonoBehaviour {
 
     private void Update()
     {
-        PathRequestSingleton.RequestReachableArea(transform.position, m_MovementRange, OnReachableAreaFound);
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            PathRequestSingleton.RequestReachableArea(transform.position, m_MovementRange, OnReachableAreaFound);
+        }
     }
 
     public void TryToMoveToDestination()

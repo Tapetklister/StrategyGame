@@ -84,12 +84,58 @@ public class Pathfinding : MonoBehaviour {
 
     IEnumerator FindReachableArea(Vector3 _startPos, float _range)
     {
-        Vector3[] nodePositions = new Vector3[0];
+        List<Vector3> nodePositions = new List<Vector3>();
         bool reachableAreaFound = false;
 
         Node startNode = m_Grid.NodeFromWorldPoint(_startPos);
 
+        Heap<Node> frontier = new Heap<Node>(m_Grid.NumberOfNodes);
+        HashSet<Node> explored = new HashSet<Node>();
+        frontier.AddItem(startNode);
+
+        while (frontier.Count > 0)
+        {
+            Node node = frontier.FetchFirst();
+            explored.Add(node);
+
+            if (node.m_GCost > _range)
+            {
+                reachableAreaFound = true;
+                break;
+            }
+
+            foreach(Node neighbour in m_Grid.GetNeighbours(node))
+            {
+                if (!neighbour.m_Passable || explored.Contains(neighbour))
+                {
+                    continue;
+                }
+
+                int movementCost = node.m_GCost + GetDistance(node, neighbour) + neighbour.m_MovementPenaly;
+
+                if (movementCost < neighbour.m_GCost || !frontier.ContainsItem(neighbour))
+                {
+                    neighbour.m_GCost = movementCost;
+                    neighbour.m_HCost = movementCost;
+                    neighbour.m_Parent = node;
+                }
+
+                if (!frontier.ContainsItem(neighbour))
+                {
+                    frontier.AddItem(neighbour);
+                    frontier.UpdateItem(neighbour);
+
+                    if (neighbour.m_GCost < _range)
+                    {
+                        nodePositions.Add(neighbour.m_WorldPosition);
+                    }
+                }
+            }
+        }
+
         yield return null;
+
+        m_PathRequestHandler.FinishedSearchingForReachableArea(nodePositions.ToArray(), reachableAreaFound);
     }
 
     Vector3[] RetracePath(Node startNode, Node endNode)
