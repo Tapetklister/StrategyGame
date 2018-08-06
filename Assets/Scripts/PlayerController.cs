@@ -22,6 +22,11 @@ public class PlayerController : MonoBehaviour {
 
         if (Input.GetButtonDown("Select"))
         {
+            if (m_Cursor.m_HighlightedNode.m_WorldPosition == transform.position)
+            {
+                ActionMenuManager.Show("ActionMenu");
+            }
+
             m_Traveler.TryToMoveToDestination(m_Cursor.m_HighlightedNode.m_WorldPosition);
         }
     }
