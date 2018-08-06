@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
-    public float m_MovementSpeed = 5.0f;
+    [SerializeField] TileCursor m_Cursor;
 
     Traveler m_Traveler;
 
@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour {
     {
         if (Input.GetButtonDown("Select"))
         {
-            m_Traveler.TryToMoveToDestination();
+            m_Traveler.TryToMoveToDestination(m_Cursor.m_HighlightedNode.m_WorldPosition);
         }
     }
 }

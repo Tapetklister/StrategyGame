@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Traveler : MonoBehaviour {
-
-    [SerializeField] TileCursor m_Cursor;
+    
     [SerializeField] float m_MovementSpeed = 2.0f;
     [SerializeField] float m_MovementRange = 50.0f;
 
@@ -14,15 +13,15 @@ public class Traveler : MonoBehaviour {
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            PathRequestSingleton.RequestReachableArea(transform.position, m_MovementRange, OnReachableAreaFound);
-        }
+        //if (Input.GetKeyDown(KeyCode.P))
+        //{
+        //    PathRequestSingleton.RequestReachableArea(transform.position, m_MovementRange, OnReachableAreaFound);
+        //}
     }
 
-    public void TryToMoveToDestination()
+    public void TryToMoveToDestination(Vector3 targetPosition)
     {
-        PathRequestSingleton.RequestPath(transform.position, m_Cursor.m_HighlightedNode.m_WorldPosition, OnPathFound);
+        PathRequestSingleton.RequestPath(transform.position, targetPosition, OnPathFound);
     }
 
     public void OnPathFound(Vector3[] _newPath, bool _pathFound)
