@@ -25,12 +25,10 @@ public class Follow : MonoBehaviour {
 
     private void Update()
     {
-        m_Timer += Time.deltaTime;
-
-        if (m_Timer >= m_TargetSearchInterval)
+        if (!m_Traveler.m_ActiveTurn || m_Traveler.m_Moving)
         {
-            m_Traveler.TryToMoveToDestination(m_Target.position);
-            m_Timer -= m_TargetSearchInterval;
+            return;
         }
+        m_Traveler.TryToMoveToDestination(m_Target.position);
     }
 }

@@ -3,13 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Traveler : MonoBehaviour {
-    
+
+    [HideInInspector] public bool m_ActiveTurn = false;
+    [HideInInspector] public bool m_Moving = false;
+
     [SerializeField] float m_MovementSpeed = 2.0f;
     [SerializeField] float m_MovementRange = 50.0f;
 
     Vector3[] m_ReachableArea;
     Vector3[] m_Path;
     int m_TargetIndex;
+
+    private void Start()
+    {
+        TurnManager.AddUnit(this);
+    }
 
     private void Update()
     {
@@ -30,6 +38,7 @@ public class Traveler : MonoBehaviour {
         {
             m_Path = _newPath;
             m_TargetIndex = 0;
+            m_Moving = true;
             StopCoroutine("MoveAlongPath");
             StartCoroutine("MoveAlongPath");
         }
@@ -56,6 +65,8 @@ public class Traveler : MonoBehaviour {
                     m_TargetIndex++;
                     if (m_TargetIndex >= m_Path.Length)
                     {
+                        m_Moving = false;
+                        TurnManager.EndTurn();
                         yield break;
                     }
                     currentWaypoint = m_Path[m_TargetIndex];
@@ -86,5 +97,15 @@ public class Traveler : MonoBehaviour {
                 Gizmos.DrawCube(m_ReachableArea[i], Vector3.one);
             }
         }
+    }
+
+    public void BeginTurn()
+    {
+        m_ActiveTurn = true;
+    }
+
+    public void EndTurn()
+    {
+        m_ActiveTurn = false;
     }
 }
