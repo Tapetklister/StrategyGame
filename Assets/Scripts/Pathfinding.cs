@@ -19,10 +19,10 @@ public class Pathfinding : MonoBehaviour {
         StartCoroutine(FindPath(_startPos, _endPos));
     }
 
-    public void StartFindReachableArea(Vector3 _startPos, float _range)
-    {
-        StartCoroutine(FindReachableArea(_startPos, _range));
-    }
+    //public void StartFindReachableArea(Vector3 _startPos, float _range)
+    //{
+    //    StartCoroutine(FindReachableArea(_startPos, _range));
+    //}
 
     IEnumerator FindPath(Vector3 startPos, Vector3 endPos)
     {
@@ -82,61 +82,60 @@ public class Pathfinding : MonoBehaviour {
         m_PathRequestHandler.FinishedSearchingForPath(nodePositions, pathFound);
     }
 
-    IEnumerator FindReachableArea(Vector3 _startPos, float _range)
-    {
-        List<Vector3> nodePositions = new List<Vector3>();
-        bool reachableAreaFound = false;
+    //IEnumerator FindReachableArea(Vector3 _startPos, float _range)
+    //{
+    //    List<Vector3> nodePositions = new List<Vector3>();
+    //    bool reachableAreaFound = false;
 
-        Node startNode = m_Grid.NodeFromWorldPoint(_startPos);
+    //    Node startNode = m_Grid.NodeFromWorldPoint(_startPos);
 
-        Heap<Node> frontier = new Heap<Node>(m_Grid.NumberOfNodes);
-        HashSet<Node> explored = new HashSet<Node>();
-        frontier.AddItem(startNode);
+    //    Heap<Node> frontier = new Heap<Node>(m_Grid.NumberOfNodes);
+    //    HashSet<Node> explored = new HashSet<Node>();
+    //    frontier.AddItem(startNode);
 
-        while (frontier.Count > 0)
-        {
-            Node node = frontier.FetchFirst();
-            explored.Add(node);
+    //    while (frontier.Count > 0)
+    //    {
+    //        Node node = frontier.FetchFirst();
+    //        explored.Add(node);
 
-            if (node.m_GCost > _range)
-            {
-                reachableAreaFound = true;
-                break;
-            }
+    //        foreach(Node neighbour in m_Grid.GetNeighbours(node))
+    //        {
+    //            if (!neighbour.m_Passable || explored.Contains(neighbour))
+    //            {
+    //                continue;
+    //            }
 
-            foreach(Node neighbour in m_Grid.GetNeighbours(node))
-            {
-                if (!neighbour.m_Passable || explored.Contains(neighbour))
-                {
-                    continue;
-                }
+    //            int movementCost = node.m_GCost + GetDistance(node, neighbour) + neighbour.m_MovementPenaly;
 
-                int movementCost = node.m_GCost + GetDistance(node, neighbour) + neighbour.m_MovementPenaly;
+    //            if (movementCost < neighbour.m_GCost || !frontier.ContainsItem(neighbour))
+    //            {
+    //                neighbour.m_GCost = movementCost;
+    //                neighbour.m_HCost = movementCost;
+    //                neighbour.m_Parent = node;
+    //            }
 
-                if (movementCost < neighbour.m_GCost || !frontier.ContainsItem(neighbour))
-                {
-                    neighbour.m_GCost = movementCost;
-                    neighbour.m_HCost = movementCost;
-                    neighbour.m_Parent = node;
-                }
+    //            if (!frontier.ContainsItem(neighbour))
+    //            {
+    //                frontier.AddItem(neighbour);
+    //                frontier.UpdateItem(neighbour);
 
-                if (!frontier.ContainsItem(neighbour))
-                {
-                    frontier.AddItem(neighbour);
-                    frontier.UpdateItem(neighbour);
+    //                if (neighbour.m_GCost <= _range)
+    //                {
+    //                    nodePositions.Add(neighbour.m_WorldPosition);
+    //                }
+    //                else
+    //                {
+    //                    reachableAreaFound = true;
+    //                    break;
+    //                }
+    //            }
+    //        }
+    //    }
 
-                    if (neighbour.m_GCost < _range)
-                    {
-                        nodePositions.Add(neighbour.m_WorldPosition);
-                    }
-                }
-            }
-        }
+    //    yield return null;
 
-        yield return null;
-
-        m_PathRequestHandler.FinishedSearchingForReachableArea(nodePositions.ToArray(), reachableAreaFound);
-    }
+    //    m_PathRequestHandler.FinishedSearchingForReachableArea(nodePositions.ToArray(), reachableAreaFound);
+    //}
 
     Vector3[] RetracePath(Node startNode, Node endNode)
     {

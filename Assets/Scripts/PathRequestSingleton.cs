@@ -12,9 +12,9 @@ public class PathRequestSingleton : MonoBehaviour {
     Pathfinding m_Pathfinding;
     bool m_IsSearchingForPath;
 
-    Queue<SReachableAreaRequest> m_ReachableAreaRequestQueue = new Queue<SReachableAreaRequest>();
-    SReachableAreaRequest m_CurrentReachableAreaRequest;
-    bool m_IsSearchingForReachableArea;
+    //Queue<SReachableAreaRequest> m_ReachableAreaRequestQueue = new Queue<SReachableAreaRequest>();
+    //SReachableAreaRequest m_CurrentReachableAreaRequest;
+    //bool m_IsSearchingForReachableArea;
 
     private void Awake()
     {
@@ -29,12 +29,12 @@ public class PathRequestSingleton : MonoBehaviour {
         m_Instance.TryFindNextPath();
     }
 
-    public static void RequestReachableArea(Vector3 _startPos, float _range, Action<Vector3[], bool> _callback)
-    {
-        SReachableAreaRequest request = new SReachableAreaRequest(_startPos, _range, _callback);
-        m_Instance.m_ReachableAreaRequestQueue.Enqueue(request);
-        m_Instance.TryDefineReachableArea();
-    }
+    //public static void RequestReachableArea(Vector3 _startPos, float _range, Action<Vector3[], bool> _callback)
+    //{
+    //    SReachableAreaRequest request = new SReachableAreaRequest(_startPos, _range, _callback);
+    //    m_Instance.m_ReachableAreaRequestQueue.Enqueue(request);
+    //    m_Instance.TryDefineReachableArea();
+    //}
 
     public void FinishedSearchingForPath(Vector3[] _path, bool _success)
     {
@@ -43,16 +43,12 @@ public class PathRequestSingleton : MonoBehaviour {
         TryFindNextPath();
     }
 
-    public void FinishedSearchingForReachableArea(Vector3[] _area, bool _success)
-    {
-        if (_area.Length > 0)
-        {
-            int pause = 5;
-        }
-
-        m_CurrentReachableAreaRequest.m_Callback(_area, _success);
-        m_IsSearchingForReachableArea = false;
-    }
+    //public void FinishedSearchingForReachableArea(Vector3[] _area, bool _success)
+    //{
+    //    m_CurrentReachableAreaRequest.m_Callback(_area, _success);
+    //    m_IsSearchingForReachableArea = false;
+    //    TryDefineReachableArea();
+    //}
 
     void TryFindNextPath()
     {
@@ -64,15 +60,15 @@ public class PathRequestSingleton : MonoBehaviour {
         }
     }
 
-    void TryDefineReachableArea()
-    {
-        if (!m_IsSearchingForReachableArea && m_ReachableAreaRequestQueue.Count > 0)
-        {
-            m_CurrentReachableAreaRequest = m_ReachableAreaRequestQueue.Dequeue();
-            m_IsSearchingForReachableArea = true;
-            m_Pathfinding.StartFindReachableArea(m_CurrentReachableAreaRequest.m_StartPos, m_CurrentReachableAreaRequest.m_Range);
-        }
-    }
+    //void TryDefineReachableArea()
+    //{
+    //    if (!m_IsSearchingForReachableArea && m_ReachableAreaRequestQueue.Count > 0)
+    //    {
+    //        m_CurrentReachableAreaRequest = m_ReachableAreaRequestQueue.Dequeue();
+    //        m_IsSearchingForReachableArea = true;
+    //        m_Pathfinding.StartFindReachableArea(m_CurrentReachableAreaRequest.m_StartPos, m_CurrentReachableAreaRequest.m_Range);
+    //    }
+    //}
 
     struct SPathRequest
     {
@@ -88,17 +84,17 @@ public class PathRequestSingleton : MonoBehaviour {
         }
     }
 
-    struct SReachableAreaRequest
-    {
-        public Vector3 m_StartPos;
-        public float m_Range;
-        public Action<Vector3[], bool> m_Callback;
+    //struct SReachableAreaRequest
+    //{
+    //    public Vector3 m_StartPos;
+    //    public float m_Range;
+    //    public Action<Vector3[], bool> m_Callback;
 
-        public SReachableAreaRequest(Vector3 _startPos, float _range, Action<Vector3[], bool> _callback)
-        {
-            m_StartPos = _startPos;
-            m_Range = _range;
-            m_Callback = _callback;
-        }
-    }
+    //    public SReachableAreaRequest(Vector3 _startPos, float _range, Action<Vector3[], bool> _callback)
+    //    {
+    //        m_StartPos = _startPos;
+    //        m_Range = _range;
+    //        m_Callback = _callback;
+    //    }
+    //}
 }
